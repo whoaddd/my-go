@@ -147,4 +147,79 @@ const (
 
 有符号整型int8、int16、int31、int64
 
+
 对应无符号整型uint8、uint16、uint32、uint64
+强制转换：
+
+```
+var a1 int32 = 10
+var a2 int64 = 20
+fmt,Println(int64(a1) + a2)
+```
+
+高位向低位转换要注意是否超出范围
+
+### 数字字面量语法
+
+%d表示10进制输出 %b表示二进制输出 %o表示八进制输出 %x表示16进制输出 %T输出数据类型 %v原样输出 %f保留六位小数 %.2f保留两位小数
+
+### unsafe.Sizeof
+
+unsafe.Sizeof(n1)是unsafe包的一个函数，可以返回n1变量占用的字节数
+
+## 浮点型
+
+go支持两种浮点型：float32和float64
+
+go语言中默认float64
+
+### 科学计数法表示浮点数
+
+```
+var f2 float32 = 3.14e2 //表示f2等于3.14*10的2次方
+```
+
+## 布尔类型
+
+布尔类型只有true和false
+
+注意：
+
+* 布尔类型变量默认为false
+* go语言不允许将整型强制转换为布尔型
+* 布尔型无法参与数值计算，也无法与其他类型进行转换
+
+string型变量默认值为空
+
+int型变量默认值为0
+
+float型变量默认值为0
+
+## 字符串
+
+字符串转义符
+
+\n换行 \转义字符
+
+### 多行字符串
+
+gi语言中要定义一个多行字符串时，就必须使用反引号字符\`
+
+```go
+str := `dfgh
+dfghj
+bnm
+`
+```
+
+### 字符串的常用操作
+
+| len(str)                            | 求长度         |
+| ----------------------------------- | -------------- |
+| +或fmt.Sprintf                      | 拼接字符串     |
+| strings.Split                       | 分割           |
+| strings.contains                    | 判断是否包含   |
+| strings.HasPrefix,strings.HasSuffix | 前缀/后缀判断  |
+| strings.Index(),strings.LastIndex() | 字串出现的位置 |
+| strings.Join(a[]string,sep string)  | join操作       |
+
