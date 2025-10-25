@@ -312,3 +312,501 @@ str2 := strconv.FormatFloat(float64(f),'f',4,64)
 | <<   | 左移n位就是乘以2的n次方。"a<<b"就是把a的各二进位全部左移b位，高位丢弃，低位补0 |
 | >>   | 右移n位就是除以2的n次方。"a>>b"是把a的各二进位全部右移b位    |
 
+# 流程控制
+
+## if else
+
+```
+if 表达式1 {
+    分支1
+}else if 表达式2 {
+    分支2
+}else{
+    分支3
+}
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	score := 85
+	if score >= 90 {
+		fmt.Println("A")
+	} else if score >= 75 {
+		fmt.Println("B")
+	} else {
+		fmt.Println("C")
+	}
+}
+
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+//B
+
+```
+
+注意：if{}不能省略，if(){}后()可以省略,{要求与条件语句在同一行
+
+## for循环
+
+go语言中所有循环类型均可以实验for关键字来完成
+
+```
+for 初始语句;条件表达式;结束语句{
+     循环体语句
+}
+条件表达式返回true时循环体不停地进行循环，直到条件表达式返回false时自动退出循环
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	for i := 1; i <= 10; i++ {
+		fmt.Println(i)
+	}
+}
+```
+
+for循环的初始语句可以被忽略，但是初始语句后的分号必须要写；注意死循环
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	i := 1
+	for {
+		if i <= 10 {
+			fmt.Println(i)
+		} else {
+			break
+		}
+		i++
+	}
+}
+```
+
+注意：go语言中没有while语句，可以使用for代替
+
+### for循环嵌套
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	row := 3
+	column := 4
+	for i := 0; i < row; i++ {
+		for j := 0; j < column; j++ {
+			fmt.Printf("* ")
+		}
+		fmt.Println("")
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+* * * * 
+* * * * 
+* * * * 
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	row := 4
+	for i := 0; i < row; i++ {
+		for j := 0; j < i; j++ {
+			fmt.Printf("* ")
+		}
+		fmt.Println("")
+	}
+}
+
+// [Running] go run "d:\Code\go\go_demo\demo1\main.go"
+
+* 
+* * 
+* * * 
+
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	for i := 0; i <= 9; i++ {
+		for j := 1; j <= i; j++ {
+			fmt.Printf("%v*%v=%v \t", i, j, i*j)
+		}
+		fmt.Println("")
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+
+1*1=1 	
+2*1=2 	2*2=4 	
+3*1=3 	3*2=6 	3*3=9 	
+4*1=4 	4*2=8 	4*3=12 	4*4=16 	
+5*1=5 	5*2=10 	5*3=15 	5*4=20 	5*5=25 	
+6*1=6 	6*2=12 	6*3=18 	6*4=24 	6*5=30 	6*6=36 	
+7*1=7 	7*2=14 	7*3=21 	7*4=28 	7*5=35 	7*6=42 	7*7=49 	
+8*1=8 	8*2=16 	8*3=24 	8*4=32 	8*5=40 	8*6=48 	8*7=56 	8*8=64 	
+9*1=9 	9*2=18 	9*3=27 	9*4=36 	9*5=45 	9*6=54 	9*7=63 	9*8=72 	9*9=81 	
+
+```
+
+## for range(键值循环)
+
+go语言可以使用for range遍历数组、切片、字符串、map及通道(channel)，通过for range遍历的返回值有以下规律
+
+1.数组、切片、字符串返回索引和值
+
+2.map返回键和值
+
+3.通道(channel)只返回通道内的值
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var arr = []string{"apple", "banana", "cherry"}
+	for _, val := range arr {
+		fmt.Println(val)
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+apple
+banana
+cherry
+```
+
+## switch case
+
+使用switch语句可方便的对大量的值进行条件判断
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var ext = ".go"
+	switch ext {
+	case ".go":
+		fmt.Println("Go source file")
+	case ".py":
+		fmt.Println("Python source file")
+	case ".js":
+		fmt.Println("JavaScript source file")
+	default:
+		fmt.Println("Unknown file type")
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+Go source file
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var score = "A"
+	switch score {
+	case "A", "B", "C":
+		fmt.Println("及格")
+	case "D":
+		fmt.Println("不及格")
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+及格
+```
+
+分支还可以使用表达式，这时候switch语句后面不需要再跟判断变量
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var age = 30
+	switch {
+	case age < 24:
+		fmt.Println("好好学习")
+	case age >= 24 && age < 60:
+		fmt.Println("好好工作")
+	default:
+		fmt.Println("好好养老")
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+好好工作
+```
+
+### 穿透 fallthrought
+
+fallthrought语法可以执行满足条件的case的下一个case，是为了兼容c语言的case设计
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var age = 30
+	switch {
+	case age < 24:
+		fmt.Println("好好学习")
+		fallthrough
+	case age >= 24 && age < 60:
+		fmt.Println("好好工作")
+		fallthrough
+	default:
+		fmt.Println("好好养老")
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+好好工作
+好好养老
+```
+
+## break
+
+go语言中的break语句用于以下几个方面
+
+* 用于循环语句中跳出循环，并开始执行循环之后的语句
+* break再switch中执行一条case后跳出语句的作用(可以去掉)
+* 在多重循环中，可以使用标号label标出break的循环
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+label:
+	for i := 0; i < 2; i++ {
+		for j := 0; j < 10; j++ {
+			if j == 3 {
+				break label
+			}
+			fmt.Printf("i=%d, j=%d\n", i, j)
+		}
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+i=0, j=0
+i=0, j=1
+i=0, j=2
+```
+
+## continue
+
+continue语句可以结束当前循环，开始下一次的循环迭代过程，仅限在for循环中使用
+
+在continue语句后添加标签时，表示开始标签对应循环
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+label:
+	for i := 0; i < 2; i++ {
+		for j := 0; j < 10; j++ {
+			if j == 3 {
+				continue label
+			}
+			fmt.Printf("i=%d, j=%d\n", i, j)
+		}
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+i=0, j=0
+i=0, j=1
+i=0, j=2
+i=1, j=0
+i=1, j=1
+i=1, j=2
+```
+
+## goto(跳转到指定标签)
+
+goto语句通过标签进行代码键的无条件转跳，goto语句可以在快速跳出循环、避免重复退出上有一定的帮助，go语言中使用goto语句能简化一些代码的实现过程
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var n = 30
+	if n > 24 {
+		fmt.Println("成年人")
+		goto label3
+	}
+	fmt.Println("aaa")
+	fmt.Println("bbb")
+label3:
+	fmt.Println("结束")
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+成年人
+结束
+```
+
+# 数组
+
+Array(数组)的介绍
+
+数组是指一系列同一类型的数据的集合
+
+数组的长度是类型的一部分
+
+## 数组定义
+
+```
+var a [3]int
+var 数组变量名 [元素数量]T
+```
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var arr1 [5]int
+	var arr2 = [3]string{"Go", "Python", "Java"}
+	fmt.Printf("arr1: %T arr2: %T\n", arr1, arr2)
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+arr1: [5]int arr2: [3]string
+```
+
+go可以直接输出数组
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var arr [3]int
+	arr[0] = 10
+	arr[1] = 20
+	arr[2] = 30
+
+	fmt.Println(arr)
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+[10 20 30]
+```
+
+## 数组的初始化
+
+```go
+1.
+var arr = [3]int
+arr[0] = 1
+arr[1] = 2
+arr[2] = 3
+2.
+var arr = [3]int{23,34,56}
+3.
+var arr = [...]int{1,2}
+4.
+var arr = [...]int{0: 1, 1: 20, 5: 30}//最大下标
+```
+
+注意数组的长度
+
+改变数组里的值
+
+```go
+var arr = [...]int{1,2}
+arr[0] = 3
+```
+
+## 数组的循环遍历
+
+for循环遍历数组
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var arr [3]int
+	arr[0] = 10
+	arr[1] = 20
+	arr[2] = 30
+
+	for i := 0; i < len(arr); i++ {
+		fmt.Println(arr[i])
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+10
+20
+30
+```
+
+for range循环
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var arr [3]int
+	arr[0] = 10
+	arr[1] = 20
+	arr[2] = 30
+
+	for k, v := range arr {
+		fmt.Printf("arr[%d]=%d\n", k, v)
+	}
+}
+
+//[Running] go run "d:\Code\go\go_demo\demo1\main.go"
+arr[0]=10
+arr[1]=20
+arr[2]=30
+```
+
+
